@@ -11,7 +11,7 @@ DQNは設計者が設定した環境とインタラクティブに学習する�
 今回取り扱う等周問題で前提とする定理は, 
 
 
-**"長さが一定である閉曲線$C$の中で, $C$が囲む面積が最大となるものは円である。"**
+**"長さが一定である閉曲線 $C$の中で, $C$が囲む面積が最大となるものは円である。"**
 
 
 というものです.
@@ -25,9 +25,7 @@ $$
 
 今回は, DQNを実際に実装し, アルゴリズムの主要なポイントを紹介します
 
-## 学べること
-
-このレシピを学ぶことで以下の手法を学ぶことができます.
+## 学んだこと
 
 - Anacondaを利用した仮想環境での開発
 - Pytorchを利用した深層強化学習モデルの構築
@@ -40,10 +38,6 @@ $$
 
 - 自動運転技術
 - 将棋や囲碁などのゲームAIの作成
-
-## 開発環境
-
-開発環境を記述してください。
 
 ## ツール
 
@@ -61,7 +55,7 @@ https://www.anaconda.com/products/distribution
 conda -V
 ```
 
-下記のように出力されたらインストール成功です^^.
+下記のように出力されたら既にインストールされています.
 
 ```cmd:output
 conda 22.9.0
@@ -73,21 +67,19 @@ Anacondaのインストールの詳細は下記のサイトを参考にしてく
 gitを既にインストールされている場合はcloneコマンドで取得できます.
 
 ```cmd:cmd
-git clone https://github.com/yudaisugiyama/AI/tree/main/DQN/dqn-isoperimetric-problem.git
+git clone https://github.com/yudaisugiyama/isoperimetric_problem.git
 ```
 
 gitが入っていない場合は, 
 
-https://github.com/yudaisugiyama/AI から<>code $\rightarrow$ Download ZIPでダウンロードして解凍してください.
+https://github.com/yudaisugiyama/isoperimetric_problem から<>code $\rightarrow$ Download ZIPでダウンロードして解凍してください.
 
 ダウンロードが完了したらenv.ymlから, 仮想環境の複製を行います.
 
 cdコマンドでenv.ymlが存在するディレクトリに移動してください.
 
-下記のコードはAIディレクトリから見た相対パスを例にしています.
-
 ```cmd:cmd
-cd DQN/dqn-isoperimetric-problem
+cd dqn-isoperimetric-problem
 ```
 
 移動したら下記のコマンドで仮想環境の複製を行います.
@@ -121,16 +113,16 @@ conda activate test
 │   ├── util.cpython-38.pyc
 │   ├── util.cpython-39.pyc
 │   └── utils.cpython-38.pyc
-├── agent                       #　エージェント
+├── agent                       #  エージェント
 │   ├── __pycache__
 │   │   ├── model.cpython-38.pyc
 │   │   ├── model.cpython-39.pyc
 │   │   ├── policy.cpython-38.pyc
 │   │   └── policy.cpython-39.pyc
-│   ├── model.py    #　ネットワークやトレーニング方法の定義
+│   ├── model.py    #  ネットワークやトレーニング方法の定義
 │   └── policy.py   #  方策の定義
 ├── conf
-│   └── config.yaml             #　パラメータ管理
+│   └── config.yaml             #  パラメータ管理
 ├── const.py                    #  周長制約
 ├── env.yml                     #  仮想環境
 ├── outputs                     #  出力ファイル
@@ -177,7 +169,7 @@ $$
 Q(s,a)\leftarrow Q(s,a)+\alpha(r+\gamma max_{a'}Q(s',a')-Q(s,a)) \tag{2}
 $$
 
-ここで, $s,a,r,a',\alpha,\gamma$はそれぞれ状態, 行動, 報酬, 次に採用する行動, 学習率(ステップ幅), 割引率を表している.
+ここで, $s,a,r,a',\alpha,\gamma$はそれぞれ状態, 行動, 報酬, 次に採用する行動, 学習率(ステップ幅), 割引率を表しています.
 
 **状態**はその時の形状であり, $(w,h)\in s$で表されます.
 
@@ -327,7 +319,7 @@ python train.py
 
 [100 rows x 2 columns]
 [2022-11-14 17:36:58,524][utils][INFO] - weight path
-C:\Users\fogefoge\Documents\AI\DQN\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
+C:\Users\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
 [2022-11-14 17:36:58,524][utils][INFO] - time
 50.377s
 ```
@@ -336,14 +328,14 @@ C:\Users\fogefoge\Documents\AI\DQN\dqn-isoperimetric-problem\outputs\2022-11-14\
 
 上記の例では, ファイルのパスは,
 
-C:\Users\fogefoge\Documents\AI\DQN\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
+C:\Users\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
 
 になります.
 
 では, トレーニングの履歴のグラフで見てみましょう.
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/6b04dce2-7df2-4d0c-bf4a-97f2867da2eb/url" />
+    <img src="outputs/2022-11-14/15-55-47/warm_up.GIF" />
     <br>  
 fig.1 形状履歴
 </p>
@@ -352,7 +344,7 @@ fig.1 形状履歴
 fig.1は学習初期の形状変更履歴を示しています. これはランダムに行動をして環境からのフィードバックをもらっている最中です.
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/70f94026-e973-4d1d-aed4-47c49ef976ac/url" />
+    <img src="outputs/2022-11-14/15-55-47/loss.png" />
     <br>  
 fig.2 損失関数の履歴
 </p>
@@ -363,18 +355,13 @@ fig.2はトレーニング時の損失関数が0に収束して学習できて�
 episode60後半からは, 損失関数が0になってしまっていますが, 問題が簡単なためこの時点で最適解は求まっていました.
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/230a0d97-d778-446d-a22a-2e4c3dd8fec4/url" />
+    <img src="outputs/2022-11-14/15-55-47/reward.png" />
     <br>  
 fig.3 エピソードごとの報酬和履歴
 </p>
 <br>
 
 fig.3はepisode60以降に急激に報酬が上がっていて, 学習が進んだことを示しています.
-
-
-
-
-
 
 ## 学習済データを使ってテスト
 
@@ -395,7 +382,7 @@ Input path of weight.pth>
 ```
 
 ```cmd:cmd_example
-Input path of weight.pth>C:\Users\fogefoge\Documents\AI\DQN\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
+Input path of weight.pth>C:\Users\\dqn-isoperimetric-problem\outputs\2022-11-14\17-36-08/weight.pth
 ```
 
 報酬最大時の楕円の状態を最後に出力します.
@@ -403,7 +390,7 @@ Input path of weight.pth>C:\Users\fogefoge\Documents\AI\DQN\dqn-isoperimetric-pr
 ここでテスト時の履歴を見てみましょう.
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/7fabf545-d7c7-48f2-a570-82614f09767b/url" />
+    <img src="outputs/2022-11-14/16-03-59/test.GIF" />
     <br>  
 fig.4 形状履歴
 </p>
@@ -413,7 +400,7 @@ fig.4は学習後の形状変更履歴を示しています. これは最も行�
 この形状変更に対する報酬のグラフは以下のようになります.
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/5e4daf01-4d6d-45f6-8d23-94f829b3a43d/url" />
+    <img src="outputs/2022-11-14/16-03-59/reward.png" />
     <br>  
 fig.5 報酬履歴
 </p>
@@ -430,7 +417,7 @@ $(w,h)$
 ```
 
 <p align="center">
-    <img src="https://api.axross-recipe.com/attachments/1735d586-da5c-43d9-b874-38365dbdf69e/url" />
+    <img src="outputs/2022-11-14/16-03-59/result.png" />
     <br>  
 fig.6 最適形状
 </p>
@@ -440,5 +427,4 @@ fig.6 最適形状
 $w$
 と
 $h$
-が同じになることがなかったためです. 
-# isoperimetric_problem
+が同じになることがなかったためと考えます. 
