@@ -105,14 +105,6 @@ conda activate test
 ## ディレクトリ構造
 ```
 .
-├── __pycache__                 #  キャッシュ
-│   ├── const.cpython-38.pyc
-│   ├── constraint.cpython-38.pyc
-│   ├── constraint.cpython-39.pyc
-│   ├── train.cpython-39.pyc
-│   ├── util.cpython-38.pyc
-│   ├── util.cpython-39.pyc
-│   └── utils.cpython-38.pyc
 ├── agent                       #  エージェント
 │   ├── __pycache__
 │   │   ├── model.cpython-38.pyc
